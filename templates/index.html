@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Mitochondries - Achzod Coaching</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🧬 Quiz Mitochondries</h1>
+            <p class="subtitle">Teste tes connaissances en optimisation de la performance</p>
+        </div>
+
+        <!-- Surprise Banner -->
+        <div class="surprise-banner">
+            <p>🎁 Une surprise t'attend à la fin du quiz ! 🎁</p>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Intro Section -->
+            <div id="intro-section" class="intro">
+                <h2>Prêt à tester tes connaissances ?</h2>
+                <p>Ce quiz de <strong>35 questions</strong> est basé sur la vidéo YouTube d'Achzod sur les mitochondries, la récupération et l'optimisation de la performance.</p>
+                <p>Tu vas être testé sur :</p>
+                <ul style="text-align: left; max-width: 600px; margin: 20px auto; line-height: 1.8;">
+                    <li>✓ HRV et récupération</li>
+                    <li>✓ Magnésium et stress (cycle vicieux)</li>
+                    <li>✓ Sommeil au niveau moléculaire</li>
+                    <li>✓ Hormone de croissance et sécrétogènes</li>
+                    <li>✓ Peptides mitochondriaux (MOTS-c, SLU-PP-332)</li>
+                    <li>✓ Bleu de méthylène</li>
+                    <li>✓ Antioxydants et stress oxydatif</li>
+                    <li>✓ Agonistes GLP</li>
+                </ul>
+                <p style="margin-top: 30px; font-weight: 700; font-size: 18px; color: #9990EA;">À la fin, tu recevras ton score par email avec les corrections détaillées des questions où tu t'es trompé.</p>
+
+                <div class="start-section">
+                    <button class="btn-start" onclick="startQuiz()">COMMENCER LE QUIZ</button>
+                </div>
+            </div>
+
+            <!-- Quiz Container -->
+            <div id="quiz-container">
+                <!-- Progress Bar -->
+                <div class="progress-container">
+                    <div class="progress-text">
+                        <span id="current-question">1</span> / <span id="total-questions">35</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                </div>
+
+                <!-- Question Card -->
+                <div class="question-card" id="question-card">
+                    <!-- Question will be inserted here by JavaScript -->
+                </div>
+
+                <!-- Navigation -->
+                <div class="navigation">
+                    <button class="btn btn-prev" id="btn-prev" onclick="prevQuestion()" style="display: none;">
+                        ← Précédent
+                    </button>
+                    <button class="btn btn-next" id="btn-next" onclick="nextQuestion()">
+                        Suivant →
+                    </button>
+                </div>
+
+                <!-- Email Section -->
+                <div class="email-section" id="email-section">
+                    <h3>📧 Reçois tes résultats par email</h3>
+                    <p>Entre ton email pour recevoir ton score et les corrections détaillées</p>
+                    <input type="email" class="email-input" id="user-email" placeholder="ton@email.com" required>
+                    <button class="btn btn-submit" onclick="submitQuiz()">
+                        VOIR MES RÉSULTATS
+                    </button>
+                </div>
+            </div>
+
+            <!-- Loader -->
+            <div class="loader" id="loader">
+                <div class="spinner"></div>
+                <p style="margin-top: 20px; font-weight: 600;">Calcul de ton score...</p>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results" id="results-section">
+                <div class="score-display">
+                    <div class="score-number" id="score-display">0/35</div>
+                    <div class="score-percentage" id="percentage-display">0%</div>
+                </div>
+
+                <div class="results-message" id="results-message">
+                    <!-- Message will be inserted here -->
+                </div>
+
+                <div class="promo-box">
+                    <h3>🎁 TA SURPRISE EST LÀ !</h3>
+                    <p style="margin-bottom: 20px;">Bravo d'avoir complété le quiz ! Voici ton code promo exclusif :</p>
+                    <div class="promo-code">QUIZZ25</div>
+                    <p style="font-size: 24px; margin-top: 20px;">-25% SUR TOUS LES COACHINGS</p>
+                    <p style="margin-top: 30px;">
+                        <a href="https://www.achzodcoaching.com" style="display: inline-block; background: linear-gradient(135deg, #9990EA 0%, #8DFFE0 100%); color: #FFFFFF; text-decoration: none; padding: 15px 40px; border: 4px solid #FFFFFF; font-weight: bold; font-size: 18px;">
+                            DÉCOUVRIR LES COACHINGS →
+                        </a>
+                    </p>
+                </div>
+
+                <p style="margin-top: 30px; font-size: 16px; color: #666;">
+                    📧 Un email avec tes résultats détaillés et les corrections a été envoyé à ton adresse email.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let sessionId = null;
+        let questions = [];
+        let currentQuestionIndex = 0;
+        let userAnswers = {};
+
+        async function startQuiz() {
+            try {
+                const response = await fetch('/api/quiz/start', {
+                    method: 'POST'
+                });
+
+                const data = await response.json();
+                sessionId = data.session_id;
+                questions = data.questions;
+
+                document.getElementById('intro-section').style.display = 'none';
+                document.getElementById('quiz-container').style.display = 'block';
+                document.getElementById('total-questions').textContent = questions.length;
+
+                displayQuestion();
+            } catch (error) {
+                console.error('Error starting quiz:', error);
+                alert('Erreur lors du démarrage du quiz. Réessaye.');
+            }
+        }
+
+        function displayQuestion() {
+            const question = questions[currentQuestionIndex];
+            const questionCard = document.getElementById('question-card');
+
+            let optionsHtml = '<div class="options">';
+            question.options.forEach((option, index) => {
+                const selected = userAnswers[question.id] === index ? 'selected' : '';
+                optionsHtml += `
+                    <div class="option ${selected}" onclick="selectOption(${index})">
+                        ${option}
+                    </div>
+                `;
+            });
+            optionsHtml += '</div>';
+
+            questionCard.innerHTML = `
+                <div class="question-number">QUESTION ${currentQuestionIndex + 1}</div>
+                <div class="question-text">${question.question}</div>
+                ${optionsHtml}
+            `;
+
+            // Update progress
+            document.getElementById('current-question').textContent = currentQuestionIndex + 1;
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+
+            // Update buttons
+            document.getElementById('btn-prev').style.display = currentQuestionIndex > 0 ? 'block' : 'none';
+
+            if (currentQuestionIndex === questions.length - 1) {
+                document.getElementById('btn-next').style.display = 'none';
+                document.getElementById('email-section').style.display = 'block';
+            } else {
+                document.getElementById('btn-next').style.display = 'block';
+                document.getElementById('email-section').style.display = 'none';
+            }
+        }
+
+        function selectOption(optionIndex) {
+            const question = questions[currentQuestionIndex];
+            userAnswers[question.id] = optionIndex;
+
+            // Update visual selection
+            const options = document.querySelectorAll('.option');
+            options.forEach((opt, idx) => {
+                opt.classList.toggle('selected', idx === optionIndex);
+            });
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        async function submitQuiz() {
+            const email = document.getElementById('user-email').value;
+
+            if (!email || !email.includes('@')) {
+                alert('Entre une adresse email valide');
+                return;
+            }
+
+            // Show loader
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('loader').style.display = 'block';
+
+            try {
+                const response = await fetch('/api/quiz/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        session_id: sessionId,
+                        email: email,
+                        answers: userAnswers
+                    })
+                });
+
+                const data = await response.json();
+
+                // Hide loader
+                document.getElementById('loader').style.display = 'none';
+
+                // Show results
+                displayResults(data);
+
+            } catch (error) {
+                console.error('Error submitting quiz:', error);
+                alert('Erreur lors de la soumission. Réessaye.');
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('quiz-container').style.display = 'block';
+            }
+        }
+
+        function displayResults(data) {
+            document.getElementById('score-display').textContent = `${data.score}/${data.total}`;
+            document.getElementById('percentage-display').textContent = `${Math.round(data.percentage)}%`;
+
+            let message = '';
+            if (data.percentage >= 90) {
+                message = '🏆 <strong>EXCEPTIONNEL !</strong> Tu maîtrises parfaitement les concepts de l\'optimisation mitochondriale et de la performance.';
+            } else if (data.percentage >= 75) {
+                message = '🎯 <strong>EXCELLENT !</strong> Tu as une très bonne compréhension des principes d\'optimisation de la performance.';
+            } else if (data.percentage >= 60) {
+                message = '👍 <strong>BIEN !</strong> Tu as de bonnes bases, quelques révisions sur certains concepts et tu seras au top.';
+            } else if (data.percentage >= 50) {
+                message = '📚 <strong>CORRECT.</strong> Continue à approfondir tes connaissances pour maîtriser tous les concepts.';
+            } else {
+                message = '💪 <strong>À AMÉLIORER.</strong> Revois les concepts clés et refais le quiz. Tu vas progresser !';
+            }
+
+            document.getElementById('results-message').innerHTML = message;
+            document.getElementById('results-section').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
