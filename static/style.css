@@ -5,7 +5,7 @@ Fonts: Eurostile (titles), Proxima Nova (body)
 Design: No border-radius, thick borders, gradients
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Inter:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&display=swap');
 
 * {
     margin: 0;
@@ -38,13 +38,14 @@ body {
 }
 
 .header h1 {
-    font-family: 'Black Ops One', 'Eurostile', Arial Black, sans-serif;
+    font-family: 'Bebas Neue', 'Eurostile', Arial Black, sans-serif;
     color: #FFFFFF;
     font-size: 42px;
     text-transform: uppercase;
     margin-bottom: 15px;
     text-shadow: 4px 4px 0 #9990EA;
     letter-spacing: 2px;
+    font-weight: bold;
 }
 
 .header .subtitle {
@@ -86,11 +87,12 @@ body {
 }
 
 .intro h2 {
-    font-family: 'Black Ops One', 'Eurostile', Arial Black, sans-serif;
+    font-family: 'Bebas Neue', 'Eurostile', Arial Black, sans-serif;
     color: #101010;
     font-size: 28px;
     margin-bottom: 15px;
     text-transform: uppercase;
+    font-weight: bold;
 }
 
 .intro p {
@@ -109,7 +111,7 @@ body {
 .btn-start {
     background: linear-gradient(135deg, #9990EA 0%, #8DFFE0 100%);
     color: #FFFFFF;
-    font-family: 'Black Ops One', 'Eurostile', Arial Black, sans-serif;
+    font-family: 'Bebas Neue', 'Eurostile', Arial Black, sans-serif;
     font-size: 24px;
     font-weight: bold;
     padding: 20px 50px;
@@ -139,11 +141,12 @@ body {
 }
 
 .progress-text {
-    font-family: 'Black Ops One', 'Eurostile', Arial Black, sans-serif;
+    font-family: 'Bebas Neue', 'Eurostile', Arial Black, sans-serif;
     font-size: 14px;
     color: #9990EA;
     margin-bottom: 10px;
     text-transform: uppercase;
+    font-weight: bold;
 }
 
 .progress-bar {
@@ -172,11 +175,12 @@ body {
 }
 
 .question-number {
-    font-family: 'Black Ops One', 'Eurostile', Arial Black, sans-serif;
+    font-family: 'Bebas Neue', 'Eurostile', Arial Black, sans-serif;
     color: #9990EA;
     font-size: 16px;
     margin-bottom: 15px;
     text-transform: uppercase;
+    font-weight: bold;
 }
 
 .question-text {
@@ -226,7 +230,7 @@ body {
 }
 
 .btn {
-    font-family: 'Black Ops One', 'Eurostile', Arial Black, sans-serif;
+    font-family: 'Bebas Neue', 'Eurostile', Arial Black, sans-serif;
     font-size: 16px;
     font-weight: bold;
     padding: 15px 30px;
@@ -273,11 +277,12 @@ body {
 }
 
 .email-section h3 {
-    font-family: 'Black Ops One', 'Eurostile', Arial Black, sans-serif;
+    font-family: 'Bebas Neue', 'Eurostile', Arial Black, sans-serif;
     color: #FFFFFF;
     font-size: 24px;
     margin-bottom: 15px;
     text-shadow: 3px 3px 0 #101010;
+    font-weight: bold;
 }
 
 .email-section p {
@@ -310,11 +315,12 @@ body {
 }
 
 .score-number {
-    font-family: 'Black Ops One', 'Eurostile', Arial Black, sans-serif;
+    font-family: 'Bebas Neue', 'Eurostile', Arial Black, sans-serif;
     font-size: 72px;
     color: #FFFFFF;
     text-shadow: 6px 6px 0 #101010;
     margin-bottom: 10px;
+    font-weight: bold;
 }
 
 .score-percentage {
@@ -339,21 +345,23 @@ body {
 }
 
 .promo-box h3 {
-    font-family: 'Black Ops One', 'Eurostile', Arial Black, sans-serif;
+    font-family: 'Bebas Neue', 'Eurostile', Arial Black, sans-serif;
     color: #8DFFE0;
     font-size: 28px;
     margin-bottom: 15px;
+    font-weight: bold;
 }
 
 .promo-code {
     background: #FFFFFF;
     color: #101010;
-    font-family: 'Black Ops One', 'Eurostile', Arial Black, sans-serif;
+    font-family: 'Bebas Neue', 'Eurostile', Arial Black, sans-serif;
     font-size: 48px;
     padding: 20px;
     border: 5px solid #9990EA;
     letter-spacing: 5px;
     margin: 20px 0;
+    font-weight: bold;
 }
 
 .promo-box p {
