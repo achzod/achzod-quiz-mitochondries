@@ -1,437 +1,57 @@
 """
-Questions du quiz sur les mitochondries et l'optimisation de la performance
-Basé sur le transcript vidéo Achzod
+Questions du quiz Performance Ultime
+Basees strictement sur le transcript video Achzod
 """
 
 QUESTIONS = [
-    {
-        "id": 1,
-        "question": "Que mesure la variabilité de fréquence cardiaque (HRV) ?",
-        "options": [
-            "La variation temporelle entre chaque battement de cœur en millisecondes",
-            "Le nombre de battements par minute",
-            "La pression artérielle systolique",
-            "Le débit cardiaque total"
-        ],
-        "correct": 0,
-        "explanation": "La HRV mesure la variation temporelle entre chaque battement de cœur en millisecondes. Ce n'est PAS la fréquence cardiaque mais la variation ENTRE les battements."
-    },
-    {
-        "id": 2,
-        "question": "Qu'est-ce qui reflète une HRV élevée ?",
-        "options": [
-            "Un état de stress et dominance sympathique",
-            "Une dominance parasympathique et récupération optimale",
-            "Un manque d'entraînement",
-            "Une déshydratation sévère"
-        ],
-        "correct": 1,
-        "explanation": "Une HRV élevée signifie une dominance parasympathique, indiquant que le corps est dans un état de récupération optimal."
-    },
-    {
-        "id": 3,
-        "question": "Combien de jours de repos consécutifs Achzod recommande-t-il en milieu de semaine ?",
-        "options": [
-            "1 jour",
-            "2 jours (mercredi et jeudi typiquement)",
-            "3 jours",
-            "Aucun, repos uniquement le weekend"
-        ],
-        "correct": 1,
-        "explanation": "Achzod recommande 2 jours de repos consécutifs en milieu de semaine (typiquement mercredi et jeudi) pour une récupération optimale au niveau cellulaire."
-    },
-    {
-        "id": 4,
-        "question": "Quel est le 'cycle vicieux' associé au magnésium et au stress ?",
-        "options": [
-            "Plus on mange, plus on grossit",
-            "Le stress augmente le cortisol qui brûle le magnésium, et moins de magnésium augmente le stress",
-            "Plus on s'entraîne, plus on a besoin de repos",
-            "La caféine réduit l'absorption du magnésium"
-        ],
-        "correct": 1,
-        "explanation": "Le cycle vicieux : le stress produit du cortisol qui brûle du magnésium. Moins de magnésium = plus de cortisol en réponse au stress, créant un cercle vicieux."
-    },
-    {
-        "id": 5,
-        "question": "Quelle enzyme nécessite du magnésium pour métaboliser la dopamine et l'œstrogène ?",
-        "options": [
-            "L'aromatase",
-            "La COMT (Catéchol-O-méthyltransférase)",
-            "La créatine kinase",
-            "La lipase"
-        ],
-        "correct": 1,
-        "explanation": "La COMT (Catéchol-O-méthyltransférase) est une enzyme magnésio-dépendante essentielle pour métaboliser la dopamine et l'œstrogène."
-    },
-    {
-        "id": 6,
-        "question": "Que se passe-t-il si la COMT ne fonctionne pas bien le soir ?",
-        "options": [
-            "On digère mal",
-            "On ne peut pas dégrader la dopamine, causant insomnie et pensées en boucle",
-            "On prend du poids",
-            "On a des crampes musculaires"
-        ],
-        "correct": 1,
-        "explanation": "Sans COMT fonctionnelle, la dopamine ne se dégrade pas le soir, causant un cerveau qui tourne à plein régime, de l'insomnie et des pensées intrusives."
-    },
-    {
-        "id": 7,
-        "question": "Quelle est la cascade biochimique du sommeil selon le transcript ?",
-        "options": [
-            "Dopamine → Sérotonine → Mélatonine",
-            "Sérotonine → Mélatonine",
-            "Mélatonine → Sérotonine",
-            "Cortisol → Mélatonine"
-        ],
-        "correct": 1,
-        "explanation": "La cascade du sommeil : haute sérotonine vous prépare à dormir, puis pendant le sommeil la sérotonine se convertit en mélatonine grâce à l'enzyme AANAT."
-    },
-    {
-        "id": 8,
-        "question": "Pourquoi prendre de la mélatonine en supplément peut provoquer des réveils 2-3h après ?",
-        "options": [
-            "Elle cause des cauchemars",
-            "Elle est métabolisée rapidement par le foie et on n'a pas de réserve interne si pas assez de sérotonine",
-            "Elle déshydrate",
-            "Elle augmente le cortisol"
-        ],
-        "correct": 1,
-        "explanation": "La mélatonine exogène est métabolisée en 2-3h par le foie. Sans réserve interne (qui nécessite de la sérotonine), on se réveille quand elle est éliminée."
-    },
-    {
-        "id": 9,
-        "question": "Quelle est la molécule énergétique universelle du corps ?",
-        "options": [
-            "Le glucose",
-            "L'ATP (Adénosine Triphosphate)",
-            "La créatine",
-            "Le glycogène"
-        ],
-        "correct": 1,
-        "explanation": "L'ATP (adénosine triphosphate) est la monnaie énergétique universelle du corps. Chaque contraction musculaire, pensée et battement de cœur nécessite de l'ATP."
-    },
-    {
-        "id": 10,
-        "question": "Quelle enzyme ne peut PAS fonctionner sans magnésium pour produire l'ATP ?",
-        "options": [
-            "La lipase",
-            "L'ATP synthase",
-            "L'amylase",
-            "La protéase"
-        ],
-        "correct": 1,
-        "explanation": "L'ATP synthase, l'enzyme clé pour fabriquer l'ATP dans les mitochondries, ne peut PAS fonctionner sans magnésium."
-    },
-    {
-        "id": 11,
-        "question": "Quel est le dosage de magnésium recommandé pour les athlètes ?",
-        "options": [
-            "100-200mg par jour",
-            "300-400mg par jour (recommandation officielle)",
-            "10mg par kg de poids corporel (800mg pour 80kg)",
-            "50mg par jour"
-        ],
-        "correct": 2,
-        "explanation": "Pour les athlètes qui s'entraînent intensément, la science suggère environ 10mg par kilogramme de poids corporel, soit 800mg pour quelqu'un de 80kg."
-    },
-    {
-        "id": 12,
-        "question": "Quelle forme de magnésium combine magnésium ET effet calmant via GABA ?",
-        "options": [
-            "Oxyde de magnésium",
-            "Citrate de magnésium",
-            "Bisglycinate de magnésium",
-            "Chlorure de magnésium"
-        ],
-        "correct": 2,
-        "explanation": "Le bisglycinate de magnésium contient de la glycine, un neurotransmetteur inhibiteur qui active les récepteurs GABA et calme le cerveau."
-    },
-    {
-        "id": 13,
-        "question": "Quel marqueur sanguin indirect suggère une déficience en magnésium ?",
-        "options": [
-            "CRP > 5",
-            "Phosphatase alcaline (ALP) < 70 U/L",
-            "Glucose > 100",
-            "Cholestérol > 200"
-        ],
-        "correct": 1,
-        "explanation": "Des études montrent que si la phosphatase alcaline (ALP) est inférieure à 70 U/L, on est probablement déficient en magnésium."
-    },
-    {
-        "id": 14,
-        "question": "Qu'est-ce que la GH (Growth Hormone) ?",
-        "options": [
-            "Une vitamine",
-            "L'hormone anabolique ultime produite par l'hypophyse",
-            "Un peptide digestif",
-            "Un neurotransmetteur"
-        ],
-        "correct": 1,
-        "explanation": "La GH (Growth Hormone) est l'hormone anabolique ultime produite par la glande hypophysaire qui régule croissance musculaire, lipolyse, récupération, etc."
-    },
-    {
-        "id": 15,
-        "question": "Quand la GH naturelle est-elle principalement sécrétée ?",
-        "options": [
-            "Le matin au réveil",
-            "Pendant le sommeil profond (22h-2h du matin)",
-            "Après les repas",
-            "Pendant l'entraînement"
-        ],
-        "correct": 1,
-        "explanation": "La GH est naturellement sécrétée en pulses principalement pendant le sommeil profond, entre 22h et 2h du matin environ."
-    },
-    {
-        "id": 16,
-        "question": "Quelle est la différence entre GHRP et GHRH ?",
-        "options": [
-            "Ce sont la même chose",
-            "GHRP active directement la pituitaire (via ghréline), GHRH stimule l'hypothalamus",
-            "GHRP est pour les femmes, GHRH pour les hommes",
-            "GHRP brûle les graisses, GHRH construit le muscle"
-        ],
-        "correct": 1,
-        "explanation": "Les GHRP imitent la ghréline et activent directement la pituitaire. Les GHRH stimulent l'hypothalamus qui ensuite dit à la pituitaire de libérer de la GH."
-    },
-    {
-        "id": 17,
-        "question": "Quel GHRP est le plus apprécié car il ne stimule presque pas la prolactine ?",
-        "options": [
-            "Hexaréline",
-            "Semaréline (GHRP-2)",
-            "Ipamoréline",
-            "GHRP-6"
-        ],
-        "correct": 2,
-        "explanation": "L'Ipamoréline est le GHRP le plus apprécié car il a très peu d'effets secondaires et ne stimule presque pas la prolactine."
-    },
-    {
-        "id": 18,
-        "question": "Pourquoi injecter les sécrétogènes dans un état de jeûne ?",
-        "options": [
-            "Pour éviter les nausées",
-            "Parce que l'insuline bloque la GH",
-            "Pour mieux absorber",
-            "C'est un mythe, on peut les prendre après manger"
-        ],
-        "correct": 1,
-        "explanation": "L'insuline et la GH sont antagonistes. Si vous avez de l'insuline circulante après un repas, la GH ne sera pas libérée. Il faut donc être à jeun."
-    },
-    {
-        "id": 19,
-        "question": "Quelle est la stack recommandée par Achzod pour les sécrétogènes ?",
-        "options": [
-            "100mcg Ipamoréline + 200mcg CJC",
-            "125mcg Ipamoréline + 100mcg CJC-1295 sans DAC",
-            "200mcg Hexaréline seul",
-            "50mcg de chaque"
-        ],
-        "correct": 1,
-        "explanation": "La stack préférée d'Achzod : 125 microgrammes d'Ipamoréline + 100 microgrammes de CJC-1295 sans DAC, injecté à jeun."
-    },
-    {
-        "id": 20,
-        "question": "Quel est le timing optimal pour injecter la GH exogène ?",
-        "options": [
-            "Le matin avant le cardio",
-            "Juste avant le coucher pour synchroniser avec le pic naturel",
-            "Après l'entraînement",
-            "Pendant le repas"
-        ],
-        "correct": 1,
-        "explanation": "La GH exogène devrait être injectée juste avant le coucher. Elle atteint son pic 2-3h après, coïncidant avec le pic naturel pour un effet synergique."
-    },
-    {
-        "id": 21,
-        "question": "Qu'est-ce que MOTS-c ?",
-        "options": [
-            "Un antioxydant",
-            "Un peptide mitochondrial qui stimule la biogenèse mitochondriale",
-            "Un supplément de magnésium",
-            "Une forme de créatine"
-        ],
-        "correct": 1,
-        "explanation": "MOTS-c est un peptide dérivé de l'ARN mitochondrial qui signale aux cellules de fabriquer plus de mitochondries (biogenèse mitochondriale)."
-    },
-    {
-        "id": 22,
-        "question": "Quelle est la différence entre glycolyse anaérobie et phosphorylation oxydative ?",
-        "options": [
-            "La glycolyse produit 1-2 ATP, la phosphorylation oxydative produit 30-35 ATP par glucose",
-            "C'est la même chose",
-            "La glycolyse est plus efficace",
-            "La phosphorylation ne nécessite pas d'oxygène"
-        ],
-        "correct": 0,
-        "explanation": "La glycolyse anaérobie produit 1-2 ATP par glucose (inefficace), tandis que la phosphorylation oxydative dans les mitochondries produit 30-35 ATP (15-17x plus efficace)."
-    },
-    {
-        "id": 23,
-        "question": "Qu'est-ce que le bleu de méthylène fait au niveau mitochondrial ?",
-        "options": [
-            "Il colore les cellules en bleu",
-            "Il accepte des électrons et court-circuite la chaîne de transport, réduisant les fuites de radicaux libres",
-            "Il détruit les mitochondries",
-            "Il remplace l'oxygène"
-        ],
-        "correct": 1,
-        "explanation": "Le bleu de méthylène est un accepteur d'électrons qui court-circuite certaines étapes de la chaîne de transport, résultant en moins de fuites de ROS et plus d'efficacité."
-    },
-    {
-        "id": 24,
-        "question": "Quel est le dosage recommandé de bleu de méthylène ?",
-        "options": [
-            "100-200mg/jour",
-            "1-3mg/jour",
-            "5-15mg/jour",
-            "50mg/jour"
-        ],
-        "correct": 2,
-        "explanation": "Le dosage recommandé de bleu de méthylène est de 5-15mg par jour, typiquement 10mg dans un verre d'eau."
-    },
-    {
-        "id": 25,
-        "question": "Pourquoi ne devrait-on JAMAIS combiner bleu de méthylène avec des ISRS ?",
-        "options": [
-            "Ça annule l'effet",
-            "Risque de syndrome sérotoninergique (trop de sérotonine)",
-            "Ça cause des nausées",
-            "C'est un mythe, on peut les combiner"
-        ],
-        "correct": 1,
-        "explanation": "Le bleu de méthylène inhibe la MAO, augmentant la sérotonine. Combiné avec des ISRS, cela crée un risque de syndrome sérotoninergique dangereux."
-    },
-    {
-        "id": 26,
-        "question": "Qu'est-ce que le glutathion ?",
-        "options": [
-            "Un acide gras",
-            "L'antioxydant maître, un tripeptide (glutamate + cystéine + glycine)",
-            "Une protéine musculaire",
-            "Un neurotransmetteur"
-        ],
-        "correct": 1,
-        "explanation": "Le glutathion est l'antioxydant maître du corps, un tripeptide composé de glutamate, cystéine et glycine, présent dans chaque cellule."
-    },
-    {
-        "id": 27,
-        "question": "Quelle est la forme de glutathion recommandée pour une meilleure absorption ?",
-        "options": [
-            "Glutathion standard oral",
-            "Glutathion liposomal (500-1000mg/jour)",
-            "Glutathion en poudre",
-            "Glutathion synthétique"
-        ],
-        "correct": 1,
-        "explanation": "Le glutathion liposomal (500-1000mg/jour) est recommandé car encapsulé dans des liposomes qui protègent le glutathion et améliorent l'absorption."
-    },
-    {
-        "id": 28,
-        "question": "Quel est le rôle du NAC (N-acétylcystéine) ?",
-        "options": [
-            "C'est un stimulant",
-            "C'est un précurseur du glutathion (1200-1800mg/jour recommandé)",
-            "C'est une vitamine",
-            "C'est un minéral"
-        ],
-        "correct": 1,
-        "explanation": "Le NAC fournit de la cystéine, l'acide aminé limitant pour la synthèse de glutathion. Plus de cystéine = plus de glutathion. Dosage : 1200-1800mg/jour."
-    },
-    {
-        "id": 29,
-        "question": "Qu'est-ce que NRF2 et pourquoi est-il important ?",
-        "options": [
-            "Un peptide",
-            "Un facteur de transcription qui active la production d'enzymes antioxydantes endogènes",
-            "Un neurotransmetteur",
-            "Une hormone"
-        ],
-        "correct": 1,
-        "explanation": "NRF2 est un facteur de transcription. Quand activé, il augmente la production d'enzymes antioxydantes (glutathion peroxydase, SOD, catalase)."
-    },
-    {
-        "id": 30,
-        "question": "Quels sont les agonistes GLP mentionnés dans le transcript ?",
-        "options": [
-            "Semaglutide (Ozempic), Liraglutide, Tirzepatide (Mounjaro)",
-            "Metformine et insuline",
-            "Testostérone et trenbolone",
-            "Créatine et bêta-alanine"
-        ],
-        "correct": 0,
-        "explanation": "Les agonistes GLP-1 incluent Semaglutide (Ozempic/Wegovy), Liraglutide (Victoza/Saxenda) et l'agoniste double Tirzepatide (Mounjaro/Zepbound)."
-    },
-    {
-        "id": 31,
-        "question": "Qu'est-ce qu'un agoniste double comme le Tirzepatide ?",
-        "options": [
-            "Il cible deux muscles",
-            "Il active GLP-1 + GIP (meilleure perte de poids 20-25%)",
-            "Il dure deux fois plus longtemps",
-            "Il coûte deux fois moins cher"
-        ],
-        "correct": 1,
-        "explanation": "Le Tirzepatide est un agoniste double GLP-1 + GIP, offrant de meilleurs résultats que GLP-1 seul (perte de poids de 20-25%, meilleure sensibilité insuline)."
-    },
-    {
-        "id": 32,
-        "question": "Quelle est l'erreur #1 mentionnée dans le transcript ?",
-        "options": [
-            "S'entraîner trop dur",
-            "Sauter les bases (sommeil, magnésium, antioxydants, nutrition)",
-            "Manger trop de glucides",
-            "Ne pas faire de cardio"
-        ],
-        "correct": 1,
-        "explanation": "L'erreur #1 est de vouloir commencer directement avec des peptides avancés sans optimiser les bases : sommeil, magnésium, antioxydants, nutrition."
-    },
-    {
-        "id": 33,
-        "question": "Pourquoi les analyses sanguines régulières sont-elles cruciales ?",
-        "options": [
-            "Pour impressionner son médecin",
-            "On ne SENT pas une fonction hépatique dégradée, cholestérol élevé, ou inflammation avant que ce soit grave",
-            "C'est uniquement pour les bodybuilders",
-            "Ce n'est pas vraiment nécessaire"
-        ],
-        "correct": 1,
-        "explanation": "Les analyses sanguines sont cruciales car on ne sent pas une fonction hépatique dégradée, un cholestérol à 300, ou une CRP élevée jusqu'à ce que ce soit grave."
-    },
-    {
-        "id": 34,
-        "question": "Combien de temps faut-il pour voir les effets de la biogenèse mitochondriale ?",
-        "options": [
-            "24-48 heures",
-            "Quelques jours",
-            "Des semaines (activation gènes → ARN → protéines → assemblage)",
-            "Plusieurs années"
-        ],
-        "correct": 2,
-        "explanation": "La biogenèse mitochondriale prend des semaines car les cellules doivent activer les gènes, transcrire l'ARN, traduire les protéines et assembler les mitochondries."
-    },
-    {
-        "id": 35,
-        "question": "Selon Achzod, à quoi ressembleront les preps dans 10 ans grâce aux avancées ?",
-        "options": [
-            "Plus de cardio, moins de calories",
-            "4000-5000 calories, zéro cardio, juste de la musculation, déchiquetés sur scène",
-            "Même approche qu'aujourd'hui",
-            "Régimes plus restrictifs"
-        ],
-        "correct": 1,
-        "explanation": "Dans 10 ans, grâce aux mitochondries optimisées et agonistes multi-récepteurs, les athlètes mangeront 4000-5000 calories, zéro cardio, juste musculation, et seront déchiquetés."
-    }
+    {"id":1,"question":"Combien de seances intenses maximum par semaine Achzod recommande pour quelqu'un de plus de 27-28 ans ?","options":["5 a 6","3 a 4","2","7"],"correct":1,"explanation":"Achzod recommande 3 a 4 entrainements intenses maximum par semaine pour les personnes avec des objectifs professionnels et familiaux."},
+    {"id":2,"question":"Que signifie HRV ?","options":["High Recovery Volume","Heart Rate Variability (Variabilite de la frequence cardiaque)","Hormonal Response Value","Hypertrophy Recovery Vector"],"correct":1,"explanation":"HRV signifie Heart Rate Variability, la variabilite de la frequence cardiaque."},
+    {"id":3,"question":"Que mesure la HRV exactement ?","options":["Le nombre de battements par minute","La pression arterielle","La variabilite temporelle entre deux battements du coeur en millisecondes","Le taux d'oxygene dans le sang"],"correct":2,"explanation":"La HRV mesure la variation temporelle entre deux battements de votre coeur en millisecondes."},
+    {"id":4,"question":"Une HRV elevee signifie une dominance de quel systeme ?","options":["Systeme sympathique","Systeme parasympathique","Systeme endocrinien","Systeme lymphatique"],"correct":1,"explanation":"Une HRV elevee signifie une dominance parasympathique, c'est un bon score de recuperation."},
+    {"id":5,"question":"Quel mineral Achzod considere comme le plus important ?","options":["Le zinc","Le calcium","Le magnesium","Le fer"],"correct":2,"explanation":"Pour Achzod, le magnesium est le mineral le plus important apres ses annees de recherche et d'experience."},
+    {"id":6,"question":"Qu'est-ce que l'ATP ?","options":["Une hormone anabolique","La monnaie energetique universelle du corps","Un neurotransmetteur","Un acide amine"],"correct":1,"explanation":"L'ATP (adenosine triphosphate) est la monnaie energetique universelle de chaque corps humain."},
+    {"id":7,"question":"Quelle enzyme a besoin de magnesium pour produire l'ATP ?","options":["La lipase","L'ATP synthase","La trypsine","La lactase"],"correct":1,"explanation":"L'ATP synthase est l'enzyme cle qui ne peut pas fonctionner sans magnesium."},
+    {"id":8,"question":"Quand le cortisol monte, qu'utilise le corps pour calmer la reponse ?","options":["Du calcium","De la creatine","Du magnesium","Du fer"],"correct":2,"explanation":"Le corps utilise du magnesium pour calmer la reponse adrenalergique provoquee par le cortisol."},
+    {"id":9,"question":"Quel est le cercle vicieux du magnesium ?","options":["Plus de magnesium = plus de cortisol","Plus de cortisol = plus de magnesium brule = moins tolerant au stress = plus de cortisol","Moins de cortisol = moins de magnesium","Le magnesium n'a aucun lien avec le cortisol"],"correct":1,"explanation":"Plus vous produisez du cortisol, plus vous brulez du magnesium. Deficient en magnesium, votre corps produit plus de cortisol."},
+    {"id":10,"question":"Que fait l'enzyme COMT ?","options":["Elle produit de la testosterone","Elle metabolise les oestrogenes et la dopamine","Elle degrade les proteines","Elle convertit le glucose en glycogene"],"correct":1,"explanation":"La COMT (catechol-O-methyltransferase) metabolise les oestrogenes et la dopamine."},
+    {"id":11,"question":"Pourquoi une dopamine elevee le soir empeche de dormir ?","options":["La dopamine detruit la melatonine","Le cerveau tourne a plein regime, on cogite, on ne peut pas s'endormir","La dopamine augmente la temperature corporelle","La dopamine bloque la respiration"],"correct":1,"explanation":"Si l'enzyme COMT ne fonctionne pas bien, on ne degrade pas la dopamine. On est allonge dans son lit mais le cerveau tourne a plein regime."},
+    {"id":12,"question":"L'enzyme COMT a besoin de quoi pour fonctionner ?","options":["De vitamine C","De zinc","De magnesium","De fer"],"correct":2,"explanation":"La COMT est une enzyme magnesiodependante. Sans magnesium, elle ne fonctionne pas."},
+    {"id":13,"question":"Quel est le role de la serotonine dans le sommeil ?","options":["Elle vous endort directement","Elle vous prepare a l'endormissement et se convertit en melatonine","Elle bloque le cortisol","Elle augmente la GH"],"correct":1,"explanation":"La serotonine est le neurotransmetteur qui vous prepare a l'endormissement, qui vous met dans un etat de calme. Elle se convertit ensuite en melatonine."},
+    {"id":14,"question":"Quel est le vrai role de la melatonine ?","options":["Elle vous endort","Elle vous garde endormi","Elle degrade le cortisol","Elle produit de la GH"],"correct":1,"explanation":"La melatonine n'est pas l'hormone qui vous endort, c'est l'hormone qui vous garde endormi."},
+    {"id":15,"question":"Pourquoi la melatonine exogene ne fonctionne souvent pas toute la nuit ?","options":["Le dosage est trop faible","Elle est metabolisee rapidement par le foie en 2-3 heures","Le corps y devient resistant","Elle ne traverse pas la barriere hematoencephalique"],"correct":1,"explanation":"La melatonine exogene est metabolisee rapidement par le foie en 2-3 heures, et le corps n'a pas de reserve interne."},
+    {"id":16,"question":"Quel acide amine essentiel est le precurseur de la serotonine ?","options":["La leucine","La glutamine","Le tryptophane","La tyrosine"],"correct":2,"explanation":"Le tryptophane est un acide amine essentiel qui traverse la barriere hematoencephalique et se convertit en serotonine."},
+    {"id":17,"question":"Comment l'insuline aide le tryptophane a atteindre le cerveau ?","options":["Elle detruit les autres acides amines","Elle transporte les autres acides amines vers les muscles, laissant la voie libre au tryptophane","Elle augmente la permeabilite cerebrale","Elle n'a aucun lien avec le tryptophane"],"correct":1,"explanation":"L'insuline transporte les acides amines vers les muscles mais pas le tryptophane, qui se retrouve avec une autoroute libre vers le cerveau."},
+    {"id":18,"question":"Quelle collation du soir Achzod recommande pour favoriser le sommeil ?","options":["Un shaker de whey","Fromage blanc, miel brut et chocolat noir 85-90%","Des pates completes","Un fruit seul"],"correct":1,"explanation":"Un petit bol de fromage blanc 0%, une cuillere a soupe de miel brut et un peu de chocolat noir 85-90%."},
+    {"id":19,"question":"Quelle forme de magnesium est la plus recommandee pour le sommeil ?","options":["L'oxyde de magnesium","Le magnesium bisglycinate","Le sulfate de magnesium","Le carbonate de magnesium"],"correct":1,"explanation":"Le magnesium bisglycinate est attache a deux molecules de glycine qui activent les recepteurs GABA et calment le cerveau."},
+    {"id":20,"question":"A quoi sert la glycine dans le magnesium bisglycinate ?","options":["Elle augmente la force musculaire","C'est un neurotransmetteur inhibiteur qui active les recepteurs GABA","Elle ameliore la digestion","Elle booste la testosterone"],"correct":1,"explanation":"La glycine est un neurotransmetteur inhibiteur qui active les recepteurs GABA, le neurotransmetteur principal qui calme le cerveau."},
+    {"id":21,"question":"Quel marqueur sanguin indirect permet de detecter une deficience en magnesium ?","options":["La ferritine","La phosphatase alcaline (ALP)","La creatinine","L'hemoglobine"],"correct":1,"explanation":"La phosphatase alcaline (ALP) est une enzyme qui a besoin de magnesium pour fonctionner. Si inferieure a 70, deficience probable."},
+    {"id":22,"question":"Si l'ALP est inferieur a combien, on est probablement deficient en magnesium ?","options":["100","70","50","30"],"correct":1,"explanation":"Si le score de votre ALP est inferieur a 70, vous etes tres probablement deficient en magnesium."},
+    {"id":23,"question":"Quel dosage de magnesium elementaire Achzod recommande pour un sportif ?","options":["50 a 100 mg","300 a 500 mg","1000 mg","10 mg"],"correct":1,"explanation":"Idealement pour un bon sportif, on parle de 300 a 500 mg de magnesium elementaire."},
+    {"id":24,"question":"Quel pourcentage de magnesium elementaire contient le bisglycinate ?","options":["50%","30%","10 a 11%","1%"],"correct":2,"explanation":"Le magnesium bisglycinate contient environ 10 a 11% de magnesium elementaire."},
+    {"id":25,"question":"Ou est produite l'hormone de croissance (GH) ?","options":["Les glandes surrenales","La glande hypophysaire (pituitaire)","La thyroide","Le pancreas"],"correct":1,"explanation":"L'hormone de croissance est produite par la glande hypophysaire situee a la base du cerveau."},
+    {"id":26,"question":"A quel moment la GH est-elle principalement secretee ?","options":["Pendant l'entrainement","Pendant le sommeil profond, entre 22h et 2h du matin","Apres le repas","Au reveil"],"correct":1,"explanation":"La GH est liberee par pulse principalement pendant le sommeil profond entre 22h et 2h du matin."},
+    {"id":27,"question":"Quelle hormone bloque la secretion de GH ?","options":["La testosterone","Le cortisol","L'insuline","La dopamine"],"correct":2,"explanation":"L'insuline bloque la GH. L'insuline et la GH sont deux hormones antagonistes."},
+    {"id":28,"question":"Quel est le meilleur moment pour injecter la GH exogene selon Achzod ?","options":["Le matin a jeun","Juste avant de dormir","Apres l'entrainement","Avant le repas du midi"],"correct":1,"explanation":"La strategie basique efficace est d'injecter la GH juste avant de dormir pour chevaucher la production naturelle."},
+    {"id":29,"question":"Combien de temps met la GH exogene injectee a atteindre son pic ?","options":["15 minutes","2 a 3 heures","30 minutes","6 heures"],"correct":1,"explanation":"La GH sous-cutanee met 2 a 3 heures a atteindre son pic."},
+    {"id":30,"question":"Pourquoi le cardio a jeun a 6h du matin juste apres injection de GH est un mythe ?","options":["Le cardio annule la GH","La GH n'est pas encore active, elle met 2-3h pour atteindre son pic","Le matin le cortisol est trop haut","La GH ne fonctionne pas le matin"],"correct":1,"explanation":"La GH met 2 a 3 heures pour atteindre son pic. Si injectee a 6h et cardio a 6h30, elle ne fait rien."},
+    {"id":31,"question":"Quel secretalogue est considere comme le plus safe ?","options":["L'hexareline","Le GHRP-2","L'ipamoreline","Le CJC-1295 avec DAC"],"correct":2,"explanation":"L'ipamoreline est le plus apprecie car c'est le plus safe avec le moins d'effets secondaires, il stimule presque pas la prolactine."},
+    {"id":32,"question":"Qu'est-ce que la biogenese mitochondriale ?","options":["La destruction des mitochondries","La fabrication de nouvelles mitochondries par les cellules","La fusion des cellules musculaires","Le stockage des graisses"],"correct":1,"explanation":"La biogenese mitochondriale, c'est quand les cellules fabriquent de nouvelles mitochondries."},
+    {"id":33,"question":"Comment s'appelle le processus de combustion des acides gras ?","options":["La glycolyse","La beta-oxydation","La gluconeogenese","La cetogenese"],"correct":1,"explanation":"Le processus pour bruler des acides gras s'appelle la beta-oxydation."},
+    {"id":34,"question":"La glycolyse anaerobie produit combien de molecules d'ATP par glucose ?","options":["30 a 35","10 a 15","2","50"],"correct":2,"explanation":"La glycolyse anaerobie produit seulement 2 molecules d'ATP par glucose, c'est assez inefficace."},
+    {"id":35,"question":"La phosphorylation oxydative produit combien de molecules d'ATP ?","options":["2","10","30 a 35","100"],"correct":2,"explanation":"La phosphorylation oxydative produit 30 a 35 molecules d'ATP, environ 15 a 17 fois superieur a la glycolyse anaerobie."},
+    {"id":36,"question":"La vitamine D est en realite quoi ?","options":["Un acide amine","Une hormone steroidienne","Un electrolyte","Un enzyme"],"correct":1,"explanation":"La vitamine D n'est pas vraiment une vitamine, c'est plutot une hormone steroidienne."},
+    {"id":37,"question":"Combien de genes la vitamine D module-t-elle dans le corps ?","options":["200","500","Plus de 2000","50"],"correct":2,"explanation":"La vitamine D module plus de 2000 genes dans votre corps."},
+    {"id":38,"question":"Qu'est-ce que la somatostatine ?","options":["Un peptide anabolique","L'hormone qui stoppe la secretion de GH","Un neurotransmetteur du bonheur","Un type de creatine"],"correct":1,"explanation":"La somatostatine est l'hormone qui stoppe la secretion de GH apres 3-4 heures."},
+    {"id":39,"question":"Combien de jours de repos de suite Achzod recommande pour certains profils ?","options":["1 jour","2 jours de suite","3 jours","0, jamais de repos"],"correct":1,"explanation":"Achzod recommande 2 jours de repos de suite, notamment pour les personnes avec testo basse, hypothyroidie ou metabolisme tres rapide."},
+    {"id":40,"question":"Pour ceux qui n'arrivent pas a maigrir malgre deficit, cardio et bon sommeil, ou est probablement le probleme ?","options":["Les muscles","Les mitochondries qui ne fonctionnent pas normalement","Le systeme digestif","Le systeme immunitaire"],"correct":1,"explanation":"Le probleme vient des mitochondries qui n'arrivent pas a travailler normalement et donc a switcher vers la beta-oxydation."},
 ]
 
+
 def get_all_questions():
-    """Retourne toutes les questions"""
     return QUESTIONS
 
-def get_question_by_id(question_id):
-    """Retourne une question spécifique par son ID"""
+
+def get_question_by_id(question_id: int):
     for q in QUESTIONS:
         if q["id"] == question_id:
             return q

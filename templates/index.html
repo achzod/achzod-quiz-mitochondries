@@ -10,325 +10,185 @@ body{background:#0a0a0a;color:#e8e4dc;font-family:'Segoe UI',Arial,sans-serif;li
 .container{max-width:700px;margin:0 auto;padding:24px 16px}
 h1{font-size:28px;text-align:center;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;color:#fff}
 .subtitle{text-align:center;color:#8a7a5c;font-size:14px;margin-bottom:32px}
-.question{background:#151515;border:1px solid #222;border-radius:8px;padding:20px;margin-bottom:16px}
+.email-gate{background:#151515;border:1px solid #d4af37;border-radius:10px;padding:32px;text-align:center;margin-bottom:24px}
+.email-gate h2{color:#d4af37;font-size:20px;margin-bottom:12px}
+.email-gate p{color:#aaa;font-size:14px;margin-bottom:20px}
+.email-gate input[type=email]{width:100%;padding:14px;border:1px solid #333;border-radius:6px;background:#1a1a1a;color:#fff;font-size:15px;margin-bottom:12px}
+.email-gate input[type=email]::placeholder{color:#666}
+.question{background:#151515;border:1px solid #222;border-radius:8px;padding:20px;margin-bottom:16px;display:none}
+.question.visible{display:block}
 .question h3{font-size:15px;margin-bottom:14px;color:#f0ece4}
 .question label{display:block;padding:10px 14px;margin:4px 0;border:1px solid #2a2a2a;border-radius:6px;cursor:pointer;font-size:14px;transition:all .2s}
 .question label:hover{border-color:#8a7a5c;background:#1a1a1a}
 .question input[type=radio]{display:none}
-.question input[type=radio]:checked+span{color:#d4af37}
 .question label:has(input:checked){border-color:#d4af37;background:#1a1812}
 .correct{border-color:#2ecc71 !important;background:#0d1f12 !important}
 .wrong{border-color:#e74c3c !important;background:#1f0d0d !important}
 .result-box{display:none;background:#151515;border:1px solid #d4af37;border-radius:10px;padding:28px;text-align:center;margin-top:24px}
 .result-box h2{font-size:24px;color:#d4af37;margin-bottom:12px}
 .result-box p{color:#ccc;font-size:15px;margin-bottom:16px}
-.btn{display:inline-block;padding:14px 32px;background:#d4af37;color:#0a0a0a;font-weight:bold;font-size:16px;text-transform:uppercase;letter-spacing:1px;border:none;border-radius:6px;cursor:pointer;text-decoration:none;margin-top:12px}
+.btn{display:inline-block;padding:14px 32px;background:#d4af37;color:#0a0a0a;font-weight:bold;font-size:16px;text-transform:uppercase;letter-spacing:1px;border:none;border-radius:6px;cursor:pointer;text-decoration:none;margin-top:12px;width:100%}
 .btn:hover{background:#c9a02e}
-.cta-box{background:linear-gradient(135deg,#1a1608,#0f0f0f);border:2px solid #d4af37;border-radius:12px;padding:32px;text-align:center;margin-top:32px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.cta-box{display:none;background:linear-gradient(135deg,#1a1608,#0f0f0f);border:2px solid #d4af37;border-radius:12px;padding:32px;text-align:center;margin-top:32px}
 .cta-box h2{color:#d4af37;font-size:22px;margin-bottom:12px}
 .cta-box p{color:#bbb;margin-bottom:20px}
 .cta-box .code{font-size:28px;color:#fff;font-weight:bold;letter-spacing:3px;margin:16px 0}
-.progress{height:6px;background:#222;border-radius:3px;margin-bottom:24px;overflow:hidden}
+.progress{height:6px;background:#222;border-radius:3px;margin-bottom:24px;overflow:hidden;display:none}
 .progress-bar{height:100%;background:#d4af37;width:0%;transition:width .3s}
-#submit-btn{display:block;margin:20px auto;width:100%}
+.counter{text-align:center;color:#666;font-size:13px;margin-bottom:16px;display:none}
 </style>
 </head>
 <body>
 <div class="container">
 <h1>Quiz Performance Ultime</h1>
-<p class="subtitle">Base sur la video AchZod — Recuperation, Sommeil, Mitochondries & Hormones</p>
-<div class="progress"><div class="progress-bar" id="progress"></div></div>
-<form id="quiz">
+<p class="subtitle">Recuperation, Sommeil, Mitochondries & Hormones</p>
 
-<div class="question"><h3>1. Combien de seances intenses maximum par semaine Achzod recommande pour quelqu un de plus de 27 28 ans ?</h3>
-<label><input type="radio" name="q1" value="a"><span>A. 5 a 6</span></label>
-<label><input type="radio" name="q1" value="b"><span>B. 3 a 4</span></label>
-<label><input type="radio" name="q1" value="c"><span>C. 2</span></label>
-<label><input type="radio" name="q1" value="d"><span>D. 7</span></label></div>
+<div class="email-gate" id="email-gate">
+<h2>Teste tes connaissances</h2>
+<p>40 questions basees sur la derniere video AchZod. Entre ton email pour commencer.</p>
+<input type="email" id="user-email" placeholder="ton@email.com" required>
+<button class="btn" id="start-btn" onclick="startQuiz()">COMMENCER LE QUIZ</button>
+</div>
 
-<div class="question"><h3>2. Que signifie HRV ?</h3>
-<label><input type="radio" name="q2" value="a"><span>A. High Recovery Volume</span></label>
-<label><input type="radio" name="q2" value="b"><span>B. Heart Rate Variability</span></label>
-<label><input type="radio" name="q2" value="c"><span>C. Hormonal Response Value</span></label>
-<label><input type="radio" name="q2" value="d"><span>D. Hypertrophy Recovery Vector</span></label></div>
+<div class="progress" id="progress-wrap"><div class="progress-bar" id="progress"></div></div>
+<div class="counter" id="counter"></div>
 
-<div class="question"><h3>3. Que mesure la HRV exactement ?</h3>
-<label><input type="radio" name="q3" value="a"><span>A. Le nombre de battements par minute</span></label>
-<label><input type="radio" name="q3" value="b"><span>B. La pression arterielle</span></label>
-<label><input type="radio" name="q3" value="c"><span>C. La variabilite temporelle entre deux battements du coeur</span></label>
-<label><input type="radio" name="q3" value="d"><span>D. Le taux d oxygene dans le sang</span></label></div>
+<form id="quiz"></form>
 
-<div class="question"><h3>4. Une HRV elevee signifie une dominance de quel systeme ?</h3>
-<label><input type="radio" name="q4" value="a"><span>A. Systeme sympathique</span></label>
-<label><input type="radio" name="q4" value="b"><span>B. Systeme parasympathique</span></label>
-<label><input type="radio" name="q4" value="c"><span>C. Systeme endocrinien</span></label>
-<label><input type="radio" name="q4" value="d"><span>D. Systeme lymphatique</span></label></div>
-
-<div class="question"><h3>5. Quel minéral Achzod considere comme le plus important ?</h3>
-<label><input type="radio" name="q5" value="a"><span>A. Le zinc</span></label>
-<label><input type="radio" name="q5" value="b"><span>B. Le calcium</span></label>
-<label><input type="radio" name="q5" value="c"><span>C. Le magnesium</span></label>
-<label><input type="radio" name="q5" value="d"><span>D. Le fer</span></label></div>
-
-<div class="question"><h3>6. Qu est ce que l ATP ?</h3>
-<label><input type="radio" name="q6" value="a"><span>A. Une hormone anabolique</span></label>
-<label><input type="radio" name="q6" value="b"><span>B. La monnaie energetique universelle du corps</span></label>
-<label><input type="radio" name="q6" value="c"><span>C. Un neurotransmetteur</span></label>
-<label><input type="radio" name="q6" value="d"><span>D. Un acide amine</span></label></div>
-
-<div class="question"><h3>7. Quelle enzyme a besoin de magnesium pour produire l ATP ?</h3>
-<label><input type="radio" name="q7" value="a"><span>A. La lipase</span></label>
-<label><input type="radio" name="q7" value="b"><span>B. L ATP synthase</span></label>
-<label><input type="radio" name="q7" value="c"><span>C. La trypsine</span></label>
-<label><input type="radio" name="q7" value="d"><span>D. La lactase</span></label></div>
-
-<div class="question"><h3>8. Quand le cortisol monte, qu est ce que le corps utilise pour calmer la reponse ?</h3>
-<label><input type="radio" name="q8" value="a"><span>A. Du calcium</span></label>
-<label><input type="radio" name="q8" value="b"><span>B. De la creatine</span></label>
-<label><input type="radio" name="q8" value="c"><span>C. Du magnesium</span></label>
-<label><input type="radio" name="q8" value="d"><span>D. Du fer</span></label></div>
-
-<div class="question"><h3>9. Quel est le cercle vicieux du magnesium ?</h3>
-<label><input type="radio" name="q9" value="a"><span>A. Plus de magnesium = plus de cortisol</span></label>
-<label><input type="radio" name="q9" value="b"><span>B. Plus de cortisol = plus de magnesium brule = moins tolerant au stress = plus de cortisol</span></label>
-<label><input type="radio" name="q9" value="c"><span>C. Moins de cortisol = moins de magnesium</span></label>
-<label><input type="radio" name="q9" value="d"><span>D. Le magnesium n a aucun lien avec le cortisol</span></label></div>
-
-<div class="question"><h3>10. Que fait l enzyme COMT ?</h3>
-<label><input type="radio" name="q10" value="a"><span>A. Elle produit de la testosterone</span></label>
-<label><input type="radio" name="q10" value="b"><span>B. Elle metabolise les oestrogenes et la dopamine</span></label>
-<label><input type="radio" name="q10" value="c"><span>C. Elle degrade les proteines</span></label>
-<label><input type="radio" name="q10" value="d"><span>D. Elle convertit le glucose en glycogene</span></label></div>
-
-<div class="question"><h3>11. Pourquoi une dopamine elevee le soir empeche de dormir ?</h3>
-<label><input type="radio" name="q11" value="a"><span>A. La dopamine detruit la melatonine</span></label>
-<label><input type="radio" name="q11" value="b"><span>B. Le cerveau tourne a plein regime, on cogite, on ne peut pas s endormir</span></label>
-<label><input type="radio" name="q11" value="c"><span>C. La dopamine augmente la temperature corporelle</span></label>
-<label><input type="radio" name="q11" value="d"><span>D. La dopamine bloque la respiration</span></label></div>
-
-<div class="question"><h3>12. Quel est le role de la serotonine dans le sommeil ?</h3>
-<label><input type="radio" name="q12" value="a"><span>A. Elle vous endort directement</span></label>
-<label><input type="radio" name="q12" value="b"><span>B. Elle vous prepare a l endormissement et se convertit en melatonine</span></label>
-<label><input type="radio" name="q12" value="c"><span>C. Elle bloque le cortisol</span></label>
-<label><input type="radio" name="q12" value="d"><span>D. Elle augmente la GH</span></label></div>
-
-<div class="question"><h3>13. Quel est le vrai role de la melatonine ?</h3>
-<label><input type="radio" name="q13" value="a"><span>A. Elle vous endort</span></label>
-<label><input type="radio" name="q13" value="b"><span>B. Elle vous garde endormi</span></label>
-<label><input type="radio" name="q13" value="c"><span>C. Elle degrade le cortisol</span></label>
-<label><input type="radio" name="q13" value="d"><span>D. Elle produit de la GH</span></label></div>
-
-<div class="question"><h3>14. Pourquoi la melatonine exogene (cacheton) ne fonctionne souvent pas toute la nuit ?</h3>
-<label><input type="radio" name="q14" value="a"><span>A. Le dosage est trop faible</span></label>
-<label><input type="radio" name="q14" value="b"><span>B. Elle est metabolisee rapidement par le foie en 2 3 heures</span></label>
-<label><input type="radio" name="q14" value="c"><span>C. Le corps y devient resistant</span></label>
-<label><input type="radio" name="q14" value="d"><span>D. Elle ne traverse pas la barriere hematoencephalique</span></label></div>
-
-<div class="question"><h3>15. Quel acide amine essentiel est le precurseur de la serotonine ?</h3>
-<label><input type="radio" name="q15" value="a"><span>A. La leucine</span></label>
-<label><input type="radio" name="q15" value="b"><span>B. La glutamine</span></label>
-<label><input type="radio" name="q15" value="c"><span>C. Le tryptophane</span></label>
-<label><input type="radio" name="q15" value="d"><span>D. La tyrosine</span></label></div>
-
-<div class="question"><h3>16. Comment l insuline aide le tryptophane a atteindre le cerveau ?</h3>
-<label><input type="radio" name="q16" value="a"><span>A. Elle detruit les autres acides amines</span></label>
-<label><input type="radio" name="q16" value="b"><span>B. Elle transporte les autres acides amines vers les muscles, laissant la voie libre au tryptophane</span></label>
-<label><input type="radio" name="q16" value="c"><span>C. Elle augmente la permeabilite cerebrale</span></label>
-<label><input type="radio" name="q16" value="d"><span>D. Elle n a aucun lien avec le tryptophane</span></label></div>
-
-<div class="question"><h3>17. Quelle collation du soir Achzod recommande pour favoriser le sommeil ?</h3>
-<label><input type="radio" name="q17" value="a"><span>A. Un shaker de whey</span></label>
-<label><input type="radio" name="q17" value="b"><span>B. Fromage blanc, miel brut et chocolat noir 85 90%</span></label>
-<label><input type="radio" name="q17" value="c"><span>C. Des pates completes</span></label>
-<label><input type="radio" name="q17" value="d"><span>D. Un fruit seul</span></label></div>
-
-<div class="question"><h3>18. Quelle forme de magnesium est la plus recommandee pour le sommeil ?</h3>
-<label><input type="radio" name="q18" value="a"><span>A. L oxyde de magnesium</span></label>
-<label><input type="radio" name="q18" value="b"><span>B. Le magnesium bisglycinate</span></label>
-<label><input type="radio" name="q18" value="c"><span>C. Le sulfate de magnesium</span></label>
-<label><input type="radio" name="q18" value="d"><span>D. Le carbonate de magnesium</span></label></div>
-
-<div class="question"><h3>19. A quoi sert la glycine dans le magnesium bisglycinate ?</h3>
-<label><input type="radio" name="q19" value="a"><span>A. Elle augmente la force musculaire</span></label>
-<label><input type="radio" name="q19" value="b"><span>B. C est un neurotransmetteur inhibiteur qui active les recepteurs GABA et calme le cerveau</span></label>
-<label><input type="radio" name="q19" value="c"><span>C. Elle ameliore la digestion</span></label>
-<label><input type="radio" name="q19" value="d"><span>D. Elle booste la testosterone</span></label></div>
-
-<div class="question"><h3>20. Quel marqueur sanguin indirect permet de detecter une deficience en magnesium ?</h3>
-<label><input type="radio" name="q20" value="a"><span>A. La ferritine</span></label>
-<label><input type="radio" name="q20" value="b"><span>B. La phosphatase alcaline (ALP)</span></label>
-<label><input type="radio" name="q20" value="c"><span>C. La creatinine</span></label>
-<label><input type="radio" name="q20" value="d"><span>D. L hemoglobine</span></label></div>
-
-<div class="question"><h3>21. Si l ALP est inferieur a combien, on est probablement deficient en magnesium ?</h3>
-<label><input type="radio" name="q21" value="a"><span>A. 100</span></label>
-<label><input type="radio" name="q21" value="b"><span>B. 70</span></label>
-<label><input type="radio" name="q21" value="c"><span>C. 50</span></label>
-<label><input type="radio" name="q21" value="d"><span>D. 30</span></label></div>
-
-<div class="question"><h3>22. Ou est produite l hormone de croissance (GH) ?</h3>
-<label><input type="radio" name="q22" value="a"><span>A. Les glandes surrenales</span></label>
-<label><input type="radio" name="q22" value="b"><span>B. La glande hypophysaire (pituitaire)</span></label>
-<label><input type="radio" name="q22" value="c"><span>C. La thyroide</span></label>
-<label><input type="radio" name="q22" value="d"><span>D. Le pancreas</span></label></div>
-
-<div class="question"><h3>23. A quel moment la GH est elle principalement secretee ?</h3>
-<label><input type="radio" name="q23" value="a"><span>A. Pendant l entrainement</span></label>
-<label><input type="radio" name="q23" value="b"><span>B. Pendant le sommeil profond, entre 22h et 2h du matin</span></label>
-<label><input type="radio" name="q23" value="c"><span>C. Apres le repas</span></label>
-<label><input type="radio" name="q23" value="d"><span>D. Au reveil</span></label></div>
-
-<div class="question"><h3>24. Quelle hormone bloque la secretion de GH ?</h3>
-<label><input type="radio" name="q24" value="a"><span>A. La testosterone</span></label>
-<label><input type="radio" name="q24" value="b"><span>B. Le cortisol</span></label>
-<label><input type="radio" name="q24" value="c"><span>C. L insuline</span></label>
-<label><input type="radio" name="q24" value="d"><span>D. La dopamine</span></label></div>
-
-<div class="question"><h3>25. Qu est ce que la biogenese mitochondriale ?</h3>
-<label><input type="radio" name="q25" value="a"><span>A. La destruction des mitochondries</span></label>
-<label><input type="radio" name="q25" value="b"><span>B. La fabrication de nouvelles mitochondries par les cellules</span></label>
-<label><input type="radio" name="q25" value="c"><span>C. La fusion des cellules musculaires</span></label>
-<label><input type="radio" name="q25" value="d"><span>D. Le stockage des graisses</span></label></div>
-
-<div class="question"><h3>26. Comment s appelle le processus de combustion des acides gras dans les mitochondries ?</h3>
-<label><input type="radio" name="q26" value="a"><span>A. La glycolyse</span></label>
-<label><input type="radio" name="q26" value="b"><span>B. La beta oxydation</span></label>
-<label><input type="radio" name="q26" value="c"><span>C. La gluconeogenese</span></label>
-<label><input type="radio" name="q26" value="d"><span>D. La cetogenese</span></label></div>
-
-<div class="question"><h3>27. La glycolyse anaerobie produit combien de molecules d ATP par glucose ?</h3>
-<label><input type="radio" name="q27" value="a"><span>A. 30 a 35</span></label>
-<label><input type="radio" name="q27" value="b"><span>B. 10 a 15</span></label>
-<label><input type="radio" name="q27" value="c"><span>C. 2</span></label>
-<label><input type="radio" name="q27" value="d"><span>D. 50</span></label></div>
-
-<div class="question"><h3>28. La phosphorylation oxydative produit combien de molecules d ATP ?</h3>
-<label><input type="radio" name="q28" value="a"><span>A. 2</span></label>
-<label><input type="radio" name="q28" value="b"><span>B. 10</span></label>
-<label><input type="radio" name="q28" value="c"><span>C. 30 a 35</span></label>
-<label><input type="radio" name="q28" value="d"><span>D. 100</span></label></div>
-
-<div class="question"><h3>29. Quel secretalogue est considere comme le plus safe avec le moins d effets secondaires ?</h3>
-<label><input type="radio" name="q29" value="a"><span>A. L hexareline</span></label>
-<label><input type="radio" name="q29" value="b"><span>B. Le GHRP 2</span></label>
-<label><input type="radio" name="q29" value="c"><span>C. L ipamoreline</span></label>
-<label><input type="radio" name="q29" value="d"><span>D. Le CJC 1295 avec DAC</span></label></div>
-
-<div class="question"><h3>30. Pourquoi l ipamoreline est prefere par beaucoup ?</h3>
-<label><input type="radio" name="q30" value="a"><span>A. Il est le moins cher</span></label>
-<label><input type="radio" name="q30" value="b"><span>B. Il stimule presque pas la prolactine</span></label>
-<label><input type="radio" name="q30" value="c"><span>C. Il se prend par voie orale</span></label>
-<label><input type="radio" name="q30" value="d"><span>D. Il remplace completement la GH exogene</span></label></div>
-
-<div class="question"><h3>31. La vitamine D est en realite quoi ?</h3>
-<label><input type="radio" name="q31" value="a"><span>A. Un acide amine</span></label>
-<label><input type="radio" name="q31" value="b"><span>B. Une hormone steroidienne</span></label>
-<label><input type="radio" name="q31" value="c"><span>C. Un electrolyte</span></label>
-<label><input type="radio" name="q31" value="d"><span>D. Un enzyme</span></label></div>
-
-<div class="question"><h3>32. Combien de genes la vitamine D module dans le corps ?</h3>
-<label><input type="radio" name="q32" value="a"><span>A. 200</span></label>
-<label><input type="radio" name="q32" value="b"><span>B. 500</span></label>
-<label><input type="radio" name="q32" value="c"><span>C. Plus de 2000</span></label>
-<label><input type="radio" name="q32" value="d"><span>D. 50</span></label></div>
-
-<div class="question"><h3>33. Quel est le rythme circadien ?</h3>
-<label><input type="radio" name="q33" value="a"><span>A. Le rythme cardiaque au repos</span></label>
-<label><input type="radio" name="q33" value="b"><span>B. L horloge biologique interne du corps</span></label>
-<label><input type="radio" name="q33" value="c"><span>C. Le cycle menstruel</span></label>
-<label><input type="radio" name="q33" value="d"><span>D. Le rythme respiratoire</span></label></div>
-
-<div class="question"><h3>34. Combien de temps met la GH exogene injectee a atteindre son pic ?</h3>
-<label><input type="radio" name="q34" value="a"><span>A. 15 minutes</span></label>
-<label><input type="radio" name="q34" value="b"><span>B. 2 a 3 heures</span></label>
-<label><input type="radio" name="q34" value="c"><span>C. 30 minutes</span></label>
-<label><input type="radio" name="q34" value="d"><span>D. 6 heures</span></label></div>
-
-<div class="question"><h3>35. Quel est le meilleur moment pour injecter la GH exogene selon Achzod ?</h3>
-<label><input type="radio" name="q35" value="a"><span>A. Le matin a jeun</span></label>
-<label><input type="radio" name="q35" value="b"><span>B. Juste avant de dormir</span></label>
-<label><input type="radio" name="q35" value="c"><span>C. Apres l entrainement</span></label>
-<label><input type="radio" name="q35" value="d"><span>D. Avant le repas du midi</span></label></div>
-
-<div class="question"><h3>36. Pourquoi la lumiere bleue est mauvaise avant de dormir ?</h3>
-<label><input type="radio" name="q36" value="a"><span>A. Elle fatigue les yeux</span></label>
-<label><input type="radio" name="q36" value="b"><span>B. Elle supprime la melatonine</span></label>
-<label><input type="radio" name="q36" value="c"><span>C. Elle augmente la temperature</span></label>
-<label><input type="radio" name="q36" value="d"><span>D. Elle deshydrate</span></label></div>
-
-<div class="question"><h3>37. Quel dosage de magnesium elementaire Achzod recommande pour un sportif ?</h3>
-<label><input type="radio" name="q37" value="a"><span>A. 50 a 100 mg</span></label>
-<label><input type="radio" name="q37" value="b"><span>B. 300 a 500 mg</span></label>
-<label><input type="radio" name="q37" value="c"><span>C. 1000 mg</span></label>
-<label><input type="radio" name="q37" value="d"><span>D. 10 mg</span></label></div>
-
-<div class="question"><h3>38. Qu est ce que la somatostatine ?</h3>
-<label><input type="radio" name="q38" value="a"><span>A. Un peptide anabolique</span></label>
-<label><input type="radio" name="q38" value="b"><span>B. L hormone qui stoppe la secretion de GH</span></label>
-<label><input type="radio" name="q38" value="c"><span>C. Un neurotransmetteur du bonheur</span></label>
-<label><input type="radio" name="q38" value="d"><span>D. Un type de creatine</span></label></div>
-
-<div class="question"><h3>39. Combien de jours de repos de suite Achzod recommande pour certains profils ?</h3>
-<label><input type="radio" name="q39" value="a"><span>A. 1 jour</span></label>
-<label><input type="radio" name="q39" value="b"><span>B. 2 jours de suite</span></label>
-<label><input type="radio" name="q39" value="c"><span>C. 3 jours</span></label>
-<label><input type="radio" name="q39" value="d"><span>D. 0, jamais de repos</span></label></div>
-
-<div class="question"><h3>40. Pour ceux qui n arrivent pas a maigrir malgre deficit, cardio, bon sommeil et bon hormonal, ou se situe probablement le probleme ?</h3>
-<label><input type="radio" name="q40" value="a"><span>A. Les muscles</span></label>
-<label><input type="radio" name="q40" value="b"><span>B. Les mitochondries qui ne fonctionnent pas normalement</span></label>
-<label><input type="radio" name="q40" value="c"><span>C. Le systeme digestif</span></label>
-<label><input type="radio" name="q40" value="d"><span>D. Le systeme immunitaire</span></label></div>
-
-<button type="button" class="btn" id="submit-btn" onclick="gradeQuiz()">VOIR MON SCORE</button>
-</form>
+<button class="btn" id="submit-btn" style="display:none" onclick="submitQuiz()">VOIR MON SCORE</button>
 
 <div class="result-box" id="result">
 <h2 id="score-text"></h2>
 <p id="score-msg"></p>
 </div>
 
-<div class="cta-box" id="cta" style="display:none">
-<h2>PASSE A L ACTION</h2>
+<div class="cta-box" id="cta">
+<h2>PASSE A L'ACTION</h2>
 <p>Tu veux aller plus loin ? Rejoins le coaching AchZod et transforme ton physique avec un programme sur mesure, un suivi personnalise et une methode scientifique eprouvee.</p>
 <div class="code">QUIZZ20</div>
 <p style="color:#d4af37;font-weight:bold;font-size:18px;">20% de reduction sur toutes les offres</p>
-<a href="https://www.achzodcoaching.com/" class="btn" target="_blank">DECOUVRIR LE COACHING</a>
+<a href="https://www.achzodcoaching.com/" class="btn" target="_blank" style="display:inline-block;width:auto">DECOUVRIR LE COACHING</a>
 </div>
 
 </div>
 <script>
-const answers={q1:'b',q2:'b',q3:'c',q4:'b',q5:'c',q6:'b',q7:'b',q8:'c',q9:'b',q10:'b',q11:'b',q12:'b',q13:'b',q14:'b',q15:'c',q16:'b',q17:'b',q18:'b',q19:'b',q20:'b',q21:'b',q22:'b',q23:'b',q24:'c',q25:'b',q26:'b',q27:'c',q28:'c',q29:'c',q30:'b',q31:'b',q32:'c',q33:'b',q34:'b',q35:'b',q36:'b',q37:'b',q38:'b',q39:'b',q40:'b'};
-function gradeQuiz(){
-let score=0;const total=40;
-document.querySelectorAll('.question').forEach((q,i)=>{
-const name='q'+(i+1);const sel=q.querySelector('input[name="'+name+'"]:checked');
-const correct=answers[name];
-q.querySelectorAll('label').forEach(l=>{
-const inp=l.querySelector('input');
-if(inp.value===correct)l.classList.add('correct');
-else if(sel&&inp.value===sel.value)l.classList.add('wrong');
-});
-if(sel&&sel.value===correct)score++;
-});
-const pct=Math.round(score/total*100);
-document.getElementById('score-text').textContent=score+'/'+total+' ('+pct+'%)';
-let msg='';
-if(pct>=90)msg='Exceptionnel. Tu maitrises les bases de la performance.';
-else if(pct>=70)msg='Tres bien. Tu as de bonnes connaissances mais il reste des zones a approfondir.';
-else if(pct>=50)msg='Correct. Tu as les bases mais il y a du boulot.';
-else msg='Tu as besoin de revoir les fondamentaux. La video est la pour ca.';
-document.getElementById('score-msg').textContent=msg;
-document.getElementById('result').style.display='block';
-document.getElementById('cta').style.display='block';
-document.getElementById('submit-btn').style.display='none';
-document.getElementById('progress').parentElement.style.display='none';
-window.scrollTo({top:document.getElementById('result').offsetTop-20,behavior:'smooth'});
+let questions=[];
+let sessionId='';
+let userEmail='';
+
+async function startQuiz(){
+  const email=document.getElementById('user-email').value.trim();
+  if(!email||!email.includes('@')){alert('Entre un email valide');return;}
+  userEmail=email;
+  document.getElementById('start-btn').disabled=true;
+  document.getElementById('start-btn').textContent='Chargement...';
+  try{
+    const r=await fetch('/api/quiz/start',{method:'POST'});
+    const d=await r.json();
+    sessionId=d.session_id;
+    questions=d.questions;
+    renderQuestions();
+    document.getElementById('email-gate').style.display='none';
+    document.getElementById('progress-wrap').style.display='block';
+    document.getElementById('counter').style.display='block';
+    document.getElementById('submit-btn').style.display='block';
+  }catch(e){
+    alert('Erreur de chargement. Reessaie.');
+    document.getElementById('start-btn').disabled=false;
+    document.getElementById('start-btn').textContent='COMMENCER LE QUIZ';
+  }
 }
-document.getElementById('quiz').addEventListener('change',function(){
-const answered=document.querySelectorAll('input[type=radio]:checked').length;
-document.getElementById('progress').style.width=(answered/40*100)+'%';
-});
+
+function renderQuestions(){
+  const form=document.getElementById('quiz');
+  form.innerHTML='';
+  questions.forEach((q,i)=>{
+    let html='<div class="question visible" id="q-'+q.id+'"><h3>'+(i+1)+'. '+q.question+'</h3>';
+    q.options.forEach((o,j)=>{
+      html+='<label><input type="radio" name="q'+q.id+'" value="'+j+'"><span>'+o+'</span></label>';
+    });
+    html+='</div>';
+    form.innerHTML+=html;
+  });
+  form.addEventListener('change',updateProgress);
+}
+
+function updateProgress(){
+  const answered=document.querySelectorAll('#quiz input[type=radio]:checked').length;
+  document.getElementById('progress').style.width=(answered/questions.length*100)+'%';
+  document.getElementById('counter').textContent=answered+' / '+questions.length+' repondu'+(answered>1?'s':'');
+}
+
+async function submitQuiz(){
+  const answers={};
+  questions.forEach(q=>{
+    const sel=document.querySelector('input[name="q'+q.id+'"]:checked');
+    if(sel)answers[String(q.id)]=parseInt(sel.value);
+  });
+  try{
+    const r=await fetch('/api/quiz/submit',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({session_id:sessionId,email:userEmail,answers:answers})
+    });
+    const d=await r.json();
+    showResults(d);
+  }catch(e){
+    gradeLocal(answers);
+  }
+}
+
+function showResults(d){
+  d.results.forEach(r=>{
+    const qDiv=document.getElementById('q-'+r.question_id);
+    if(!qDiv)return;
+    const labels=qDiv.querySelectorAll('label');
+    labels.forEach((l,i)=>{
+      if(i===r.correct_answer)l.classList.add('correct');
+      else if(i===r.user_answer&&!r.is_correct)l.classList.add('wrong');
+    });
+  });
+  const pct=Math.round(d.percentage);
+  document.getElementById('score-text').textContent=d.score+'/'+d.total+' ('+pct+'%)';
+  let msg='';
+  if(pct>=90)msg='Exceptionnel. Tu maitrises les bases de la performance.';
+  else if(pct>=70)msg='Tres bien. Il reste des zones a approfondir.';
+  else if(pct>=50)msg='Correct mais il y a du boulot.';
+  else msg='Tu as besoin de revoir les fondamentaux. La video est la pour ca.';
+  document.getElementById('score-msg').textContent=msg;
+  document.getElementById('result').style.display='block';
+  document.getElementById('cta').style.display='block';
+  document.getElementById('submit-btn').style.display='none';
+  window.scrollTo({top:document.getElementById('result').offsetTop-20,behavior:'smooth'});
+}
+
+function gradeLocal(answers){
+  let score=0;
+  questions.forEach(q=>{
+    const ua=answers[String(q.id)];
+    const qDiv=document.getElementById('q-'+q.id);
+    if(!qDiv)return;
+    const labels=qDiv.querySelectorAll('label');
+    labels.forEach((l,i)=>{
+      if(i===q.correct)l.classList.add('correct');
+      else if(i===ua&&ua!==q.correct)l.classList.add('wrong');
+    });
+    if(ua===q.correct)score++;
+  });
+  const pct=Math.round(score/questions.length*100);
+  document.getElementById('score-text').textContent=score+'/'+questions.length+' ('+pct+'%)';
+  let msg='';
+  if(pct>=90)msg='Exceptionnel. Tu maitrises les bases de la performance.';
+  else if(pct>=70)msg='Tres bien. Il reste des zones a approfondir.';
+  else if(pct>=50)msg='Correct mais il y a du boulot.';
+  else msg='Tu as besoin de revoir les fondamentaux. La video est la pour ca.';
+  document.getElementById('score-msg').textContent=msg;
+  document.getElementById('result').style.display='block';
+  document.getElementById('cta').style.display='block';
+  document.getElementById('submit-btn').style.display='none';
+  window.scrollTo({top:document.getElementById('result').offsetTop-20,behavior:'smooth'});
+}
 </script>
 </body>
 </html>
