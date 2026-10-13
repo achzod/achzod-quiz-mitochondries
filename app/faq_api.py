@@ -11,7 +11,7 @@ from pathlib import Path
 
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import FileResponse, JSONResponse
-from pydantic import BaseModel, EmailStr, StrictBool, StrictInt, Field, ConfigDict
+from pydantic import BaseModel, EmailStr, StrictBool, StrictInt, Field, ConfigDict, TypeAdapter
 from sqlalchemy import (create_engine, MetaData, Table, Column, String, Text,
                         Float, Boolean, JSON, Integer, select, func, UniqueConstraint)
 from app.faq_content import QUESTIONS, VERSION
@@ -102,10 +102,11 @@ class FAQRouter(APIRouter):
     admin_token: str
     secret: str
     min_duration: int
+    notify_email: str
 
 
 def build_router(database_url=None, provider=None, public_url=None, admin_token=None,
-                 secret=None, min_duration=15):
+                 secret=None, min_duration=15, notify_email=None):
     url = database_url or os.environ.get('FAQ_DATABASE_URL')
     if not url:
         if os.environ.get('RENDER'):
@@ -119,6 +120,8 @@ def build_router(database_url=None, provider=None, public_url=None, admin_token=
     router.admin_token = admin_token or os.environ.get('FAQ_ADMIN_TOKEN', '')
     router.secret = secret or os.environ.get('FAQ_SECRET', 'development-only')
     router.min_duration = min_duration
+    recipient = notify_email if notify_email is not None else os.environ.get('FAQ_NOTIFY_EMAIL', '')
+    router.notify_email = str(TypeAdapter(EmailStr).validate_python(recipient)) if recipient else ''
 
     @router.get('/faq', include_in_schema=False)
     def page():
@@ -198,6 +201,9 @@ def build_router(database_url=None, provider=None, public_url=None, admin_token=
             conn.execute(outbox.insert().values(token_hash=row['token_hash'], kind='results',
                 payload={'token': data.token, 'confirmation_token': confirmation_token},
                 status='pending', attempts=0, next_at=now))
+            if router.notify_email and not row['is_qa']:
+                conn.execute(outbox.insert().values(token_hash=row['token_hash'], kind='admin_notification',
+                    payload={'to': router.notify_email}, status='pending', attempts=0, next_at=now))
             row = dict(row, result=result)
             return public_result(conn, row)
 
@@ -249,6 +255,7 @@ def build_router(database_url=None, provider=None, public_url=None, admin_token=
         with store.engine.connect() as conn:
             conn.execute(select(func.count()).select_from(sessions)).scalar_one()
         return {'status': 'ok', 'version': VERSION, 'storage': 'postgresql' if store.engine.dialect.name == 'postgresql' else 'sqlite',
-                'questions': 20, 'mail_configured': bool(router.provider)}
+                'questions': 20, 'mail_configured': bool(router.provider),
+                'notifications_enabled': bool(router.notify_email)}
 
     return router

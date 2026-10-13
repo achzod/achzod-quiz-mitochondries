@@ -12,6 +12,7 @@ from urllib.parse import quote
 import requests
 from sqlalchemy import select, delete, or_
 from app.faq_api import sessions, outbox
+from app.faq_notifications import render_admin_notification
 
 log = logging.getLogger(__name__)
 
@@ -177,10 +178,15 @@ class DeliveryWorker:
             row = conn.execute(select(sessions).where(sessions.c.token_hash == job['token_hash'])).mappings().one()
         status, receipt, outcome = 'sent', job['provider_id'], None
         try:
-            if job['kind'] == 'results':
+            if job['kind'] in ('results', 'admin_notification'):
                 if not receipt:
-                    message = render_email(row, job['payload'], self.public_url)
-                    receipt = self.provider.send_results(row['email'], message)
+                    if job['kind'] == 'results':
+                        message = render_email(row, job['payload'], self.public_url)
+                        recipient = row['email']
+                    else:
+                        message = render_admin_notification(row, self.public_url)
+                        recipient = job['payload']['to']
+                    receipt = self.provider.send_results(recipient, message)
                     with self.store.engine.begin() as conn:
                         conn.execute(outbox.update().where(outbox.c.id == job['id']).values(provider_id=receipt))
                 self.provider.verify_results(receipt)

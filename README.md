@@ -20,6 +20,8 @@ Variables :
 - `FAQ_SECRET`, `FAQ_ADMIN_TOKEN` : secrets aléatoires distincts.
 - `FAQ_PUBLIC_URL` : origine publique, utilisée dans les liens du corrigé.
 - `FAQ_SENDER_EMAIL`, `FAQ_SENDER_NAME` : expéditeur vérifié.
+- `FAQ_NOTIFY_EMAIL` : destinataire interne, une notification par quiz réellement terminé. Aucun envoi pour un démarrage seul ou une session QA, aucun rattrapage automatique des anciennes participations.
+- `FAQ_NOTIFICATION_TIMEZONE` : fuseau de la notification, `Asia/Dubai` par défaut.
 
 Contrôle : `/api/faq/health`. Statut opérateur : `/api/faq/admin/status` avec l’en-tête `X-FAQ-Admin` ; aucune adresse ni réponse personnelle dans ce statut.
 
