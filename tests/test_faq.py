@@ -1,4 +1,5 @@
 import importlib.util
+import pytest
 from collections import Counter
 
 
@@ -17,6 +18,7 @@ def test_quiz_has_twenty_distinct_advanced_questions():
         assert q['source']['url'].startswith('https://')
 
 
+@pytest.mark.filterwarnings('error::DeprecationWarning')
 def test_production_entrypoint_exposes_faq_without_breaking_the_legacy_quiz(tmp_path, monkeypatch):
     assert importlib.util.find_spec('app.faq_main') is not None, 'Le point d’entrée de production manque'
     monkeypatch.setenv('FAQ_DATABASE_URL', 'sqlite:///' + str(tmp_path / 'production.db'))

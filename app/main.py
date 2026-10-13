@@ -46,7 +46,7 @@ class QuizSubmit(BaseModel):
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
     """Page d'accueil du quiz"""
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse(request=request, name="index.html")
 
 
 @app.post("/api/quiz/start")
