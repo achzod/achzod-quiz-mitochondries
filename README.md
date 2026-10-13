@@ -1,3 +1,32 @@
+# Quiz FAQ 20 · Achzod
+
+Nouveau parcours : `/faq`. Le quiz historique à `/` reste inchangé.
+
+- 20 situations avancées : 5 métabolisme, 5 biomécanique, 5 nutrition, 5 compléments.
+- Quatre propositions, ordre des réponses mélangé par session, corrigé réservé au serveur jusqu’à validation.
+- Email capturé, score et réponses persistants dans `faq_sessions` ; file de livraison dans `faq_outbox`.
+- Corrigé HTML complet envoyé via SendPulse ; reçu SMTP relu par identifiant avant statut `sent`.
+- Newsletter facultative, double opt-in : seule une confirmation personnelle reçue par mail ajoute l’adresse à **My emails / 128647**. Aucun compte QA n’est ajouté.
+- CTA coaching : **BLOOD99**, **99 € de réduction**.
+- Conservation des données FAQ : 30 jours, nettoyage horaire. Un arrêt ambigu d’envoi est soumis à vérification, jamais renvoyé aveuglément.
+
+## Production FAQ
+
+Commande : `uvicorn app.faq_main:app --host 0.0.0.0 --port $PORT --proxy-headers --forwarded-allow-ips='*'` (proxy Render, un processus).
+
+Variables :
+- `FAQ_DATABASE_URL` : SQLite sur disque Render persistant `/var/data/faq.sqlite`, ou URL PostgreSQL.
+- `FAQ_SENDPULSE_API_KEY` : clé API native, transmise directement en Bearer ; pas en secret OAuth.
+- `FAQ_SECRET`, `FAQ_ADMIN_TOKEN` : secrets aléatoires distincts.
+- `FAQ_PUBLIC_URL` : origine publique, utilisée dans les liens du corrigé.
+- `FAQ_SENDER_EMAIL`, `FAQ_SENDER_NAME` : expéditeur vérifié.
+
+Contrôle : `/api/faq/health`. Statut opérateur : `/api/faq/admin/status` avec l’en-tête `X-FAQ-Admin` ; aucune adresse ni réponse personnelle dans ce statut.
+
+Tests : `python -m pytest tests/ -q`. QA navigateur et reçus opérateur conservés hors dépôt dans `tasks/faq_quiz_20261013` du workspace.
+
+---
+
 # Quiz Mitochondries - Achzod Coaching
 
 Quiz interactif de 35 questions basé sur la vidéo YouTube d'Achzod sur les mitochondries, la récupération et l'optimisation de la performance.
