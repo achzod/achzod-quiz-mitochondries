@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 import os
 from app.main import app
 from app.faq_api import build_router
+from app.faq_content_v2 import QUESTIONS as QUIZ_TWO, VERSION as QUIZ_TWO_VERSION
 from app.faq_delivery import SendPulseProvider, DeliveryWorker
 
 provider = None
@@ -15,6 +16,9 @@ if os.environ.get('RENDER') and (not provider or not os.environ.get('FAQ_SECRET'
 
 router = build_router(provider=provider)
 app.include_router(router)
+app.include_router(build_router(provider=provider, question_bank=QUIZ_TWO,
+                                version=QUIZ_TWO_VERSION, prefix='/quiz-2',
+                                page_template='faq2.html'))
 worker = DeliveryWorker(router.store, provider, router.public_url) if provider else None
 
 @asynccontextmanager

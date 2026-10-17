@@ -106,14 +106,16 @@ class FAQRouter(APIRouter):
 
 
 def build_router(database_url=None, provider=None, public_url=None, admin_token=None,
-                 secret=None, min_duration=15, notify_email=None):
+                 secret=None, min_duration=15, notify_email=None, *,
+                 question_bank=None, version=VERSION, prefix='', page_template='faq.html'):
     url = database_url or os.environ.get('FAQ_DATABASE_URL')
     if not url:
         if os.environ.get('RENDER'):
             raise RuntimeError('FAQ_DATABASE_URL_REQUIRED')
         url = 'sqlite:///faq-local.sqlite'
     store = Store(url)
-    router = FAQRouter(default_response_class=PrivateJSONResponse)
+    bank = QUESTIONS if question_bank is None else question_bank
+    router = FAQRouter(prefix=prefix, default_response_class=PrivateJSONResponse)
     router.store = store
     router.provider = provider
     router.public_url = public_url or os.environ.get('FAQ_PUBLIC_URL', 'http://127.0.0.1:8124')
@@ -125,7 +127,7 @@ def build_router(database_url=None, provider=None, public_url=None, admin_token=
 
     @router.get('/faq', include_in_schema=False)
     def page():
-        return FileResponse(Path(__file__).resolve().parent.parent / 'templates' / 'faq.html',
+        return FileResponse(Path(__file__).resolve().parent.parent / 'templates' / page_template,
             headers={'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer',
                      'X-Content-Type-Options': 'nosniff', 'X-Frame-Options': 'DENY'})
 
@@ -146,8 +148,10 @@ def build_router(database_url=None, provider=None, public_url=None, admin_token=
             if not qa and (ip_count >= 15 or mail_count >= 3):
                 raise HTTPException(429, 'Trop de participations rapprochées. Réessaie plus tard.')
             token = secrets.token_urlsafe(36)
-            snapshot = copy.deepcopy(QUESTIONS)
+            snapshot = copy.deepcopy(bank)
             for question in snapshot:
+                question['_quiz_version'] = version
+                question['_quiz_path'] = prefix + '/faq'
                 order = list(range(4))
                 random.SystemRandom().shuffle(order)
                 question['correct'] = order.index(question['correct'])
@@ -157,7 +161,7 @@ def build_router(database_url=None, provider=None, public_url=None, admin_token=
                 consent_version='faq-consent-v1', started_at=now, ip_hash=ip_hash,
                 snapshot=snapshot, is_qa=qa))
         public = [{k: q[k] for k in ('id', 'category', 'title', 'question', 'options')} for q in snapshot]
-        return {'token': token, 'version': VERSION, 'questions': public}
+        return {'token': token, 'version': version, 'questions': public}
 
     def load(conn, token, lock=False):
         if len(token) < 40 or len(token) > 100:
@@ -192,7 +196,9 @@ def build_router(database_url=None, provider=None, public_url=None, admin_token=
             categories = {category: {'score': sum(q['is_correct'] for q in results if q['category'] == category),
                                     'total': 5} for category in dict.fromkeys(q['category'] for q in results)}
             result = {'score': score, 'total': 20, 'percentage': score * 5,
-                      'categories': categories, 'results': results, 'version': VERSION}
+                      'categories': categories, 'results': results,
+                      'version': questions[0].get('_quiz_version', VERSION),
+                      'quiz_path': questions[0].get('_quiz_path', '/faq')}
             now = time.time()
             confirmation_token = secrets.token_urlsafe(36) if row['newsletter'] and not row['is_qa'] else None
             conn.execute(sessions.update().where(sessions.c.token_hash == row['token_hash']).values(
@@ -254,7 +260,7 @@ def build_router(database_url=None, provider=None, public_url=None, admin_token=
     def health():
         with store.engine.connect() as conn:
             conn.execute(select(func.count()).select_from(sessions)).scalar_one()
-        return {'status': 'ok', 'version': VERSION, 'storage': 'postgresql' if store.engine.dialect.name == 'postgresql' else 'sqlite',
+        return {'status': 'ok', 'version': version, 'storage': 'postgresql' if store.engine.dialect.name == 'postgresql' else 'sqlite',
                 'questions': 20, 'mail_configured': bool(router.provider),
                 'notifications_enabled': bool(router.notify_email)}
 
